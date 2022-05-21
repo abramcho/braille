@@ -98,7 +98,7 @@ def to_text(code):
     return ascii_text
 
 
-title = 'Zoogotá'
+title = 'Le petit prince'
 
 
 class PDF(FPDF):
@@ -116,29 +116,33 @@ class PDF(FPDF):
         # Grosor del marco (1 mm)
         # self.set_line_width(1)
         # Titulo
-        self.cell(w, 9, to_braille(title), 0, 1, 'C', 0)
+        self.set_text_color(203, 104, 67)
+        self.cell(w, 10, to_braille(title), 0, 1, 'C', 0)
         # Salto de línea
         self.ln(10)
 
     def footer(self):
         # Posición a 1.5 cm desde abajo
-        # self.set_y(-15)
-        self.set_y(-90)
+        self.set_y(-15)
+        # self.set_y(-30)
         # Arial italic 8
         # self.set_font('Arial', 'I', 8)
         self.set_font('Symbol', '', 25)
         # Color de texto en gris
-        # self.set_text_color(128)
+        self.set_text_color(203, 104, 67)
         # Numero de pagina
         # self.cell(0, 10, to_braille(f'page #{self.page_no()}'), 0, 0, 'C')
-        self.cell(0, 10, to_braille(f'Manuel Espitia Benavides'), 0, 0, 'R')
-        self.ln(10)
-        self.cell(0, 10, to_braille(f'#28 años'), 0, 0, 'R')
-        self.ln(10)
-        self.cell(0, 10, to_braille(f'Chapinero'), 0, 0, 'R')
+        # self.ln(10)
+        self.cell(0, 0, to_braille(f'Antoine de Saint-Exupéry'), 0, 0, 'R')
+        # self.ln(20)
+
+        # self.cell(0, 10, to_braille(f'#28 años'), 0, 0, 'R')
+        # self.ln(10)
+        # self.cell(0, 10, to_braille(f'Chapinero'), 0, 0, 'R')
 
     def chapter_title(self, num, label):
         self.set_font('Symbol', '', 25)
+        # self.set_text_color(203, 104, 67)
         # Arial 12
         # self.set_font('Arial', '', 12)
         # Color de fondo
@@ -146,7 +150,7 @@ class PDF(FPDF):
         # Titulo
         # self.cell(0, 6, to_braille(f'chapter #{num} : {label}'), 0, 1, 'L', 0)
         # Salto de línea
-        self.ln(4)
+        # self.ln(4)
 
     def chapter_body(self, name):
         # Leer archivo de texto
@@ -155,11 +159,14 @@ class PDF(FPDF):
         # Times 12
         # self.set_font('Times', '', 12)
         self.set_font('Symbol', '', 25)
-
+        self.set_text_color(203, 104, 67)
         # Emitir texto justificado
         self.multi_cell(0, 10, to_braille(name), 0, 'J')
+        # self.ln(70)
+        # self.cell(0, 0, ' ')
+        # self.cell(0, 100, ' ')
         # Salto de línea
-        # self.ln()
+        # self.ln(50)
         # Mención en italic -cursiva-
         # self.set_font('', 'I')
         # self.cell(0, 5, '(end of excerpt)')
@@ -178,7 +185,7 @@ pdf.add_font('Symbol', '', 'seguisym.ttf', uni=True)
 pdf.set_title(data["title"])
 pdf.set_author(data["author"])
 pdf.print_chapter(0, data["chapters"][0]["title"], data["chapters"][0]["content"])
+# pdf.print_chapter_2(data["chapters"][0]["content"][600:])
 a = to_braille(data["chapters"][0]["content"])
-pdf.add_page()
+# pdf.add_page()
 pdf.output('braille.pdf', 'F')
-
